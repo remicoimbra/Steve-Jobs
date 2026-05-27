@@ -1,1101 +1,359 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Steve Jobs — Stratégie de présence en ligne</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --cream:    #F7E3B5;
-    --sand:     #F2B880;
-    --terracotta: #D98C75;
-    --slate:    #7FA5A3;
-    --navy:     #3E4B59;
-    --cream-t:  rgba(247,227,181,0.08);
-    --sand-t:   rgba(242,184,128,0.15);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--navy);
-    color: var(--cream);
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    width: 10px; height: 10px;
-    background: var(--terracotta);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9999;
-    transition: transform 0.15s ease;
-    mix-blend-mode: screen;
-  }
-  .cursor-ring {
-    width: 36px; height: 36px;
-    border: 1px solid rgba(217,140,117,0.4);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9998;
-    transition: transform 0.35s ease, width 0.3s, height 0.3s, border-color 0.3s;
-  }
-
-  /* ── HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(127,165,163,0.12) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(217,140,117,0.08) 0%, transparent 60%);
-  }
-
-  /* Vertical lines decoration */
-  .hero-lines {
-    position: absolute; inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .hero-lines::before {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0;
-    left: 50%;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, rgba(242,184,128,0.2) 30%, rgba(242,184,128,0.2) 70%, transparent);
-    animation: lineAppear 1.5s ease forwards;
-  }
-
-  @keyframes lineAppear {
-    from { opacity: 0; transform: scaleY(0); transform-origin: top; }
-    to   { opacity: 1; transform: scaleY(1); }
-  }
-
-  .hero-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 8vw 6vw 8vw 8vw;
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero-eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--terracotta);
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.3s forwards;
-    margin-bottom: 2rem;
-  }
-
-  .hero-name {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3.5rem, 6vw, 7rem);
-    line-height: 1.0;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.5s forwards;
-    margin-bottom: 0.5rem;
-  }
-
-  .hero-name em {
-    font-style: italic;
-    color: var(--terracotta);
-    display: block;
-    font-size: 0.7em;
-    font-weight: 400;
-  }
-
-  .hero-tagline {
-    font-size: clamp(1rem, 1.4vw, 1.4rem);
-    color: var(--sand);
-    font-style: italic;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.7s forwards;
-    margin: 2rem 0;
-    max-width: 38ch;
-    line-height: 1.6;
-  }
-
-  .hero-question {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--slate);
-    letter-spacing: 0.1em;
-    border-left: 2px solid var(--slate);
-    padding-left: 1rem;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.9s forwards;
-    line-height: 1.8;
-    max-width: 38ch;
-  }
-
-  .hero-right {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 1;
-    padding: 6vw 8vw 6vw 4vw;
-  }
-
-  .hero-portrait {
-    width: clamp(220px, 28vw, 420px);
-    aspect-ratio: 3/4;
-    position: relative;
-    opacity: 0;
-    animation: fadeIn 1.2s ease 1s forwards;
-  }
-
-  .portrait-frame {
-    width: 100%; height: 100%;
-    border: 1px solid rgba(242,184,128,0.25);
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(145deg, rgba(62,75,89,0.8), rgba(127,165,163,0.1));
-  }
-
-  /* Stylized silhouette instead of photo */
-  .portrait-silhouette {
-    position: absolute;
-    bottom: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 75%;
-    height: 88%;
-    background: linear-gradient(170deg, var(--sand) 0%, var(--terracotta) 50%, var(--navy) 100%);
-    clip-path: polygon(
-      35% 0%, 65% 0%, 72% 8%, 72% 18%, 80% 22%,
-      82% 35%, 76% 42%, 80% 60%, 85% 100%,
-      15% 100%, 20% 60%, 24% 42%, 18% 35%,
-      20% 22%, 28% 18%, 28% 8%
-    );
-    opacity: 0.7;
-  }
-
-  .portrait-label {
-    position: absolute;
-    bottom: -2.5rem;
-    left: 0; right: 0;
-    text-align: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: var(--slate);
-    text-transform: uppercase;
-  }
-
-  /* Corner decorations */
-  .portrait-frame::before,
-  .portrait-frame::after {
-    content: '';
-    position: absolute;
-    width: 24px; height: 24px;
-    border-color: var(--sand);
-    border-style: solid;
-    z-index: 2;
-  }
-  .portrait-frame::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
-  .portrait-frame::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
-
-  .scroll-hint {
-    position: absolute;
-    bottom: 3rem;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: var(--terracotta);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
-    opacity: 0;
-    animation: fadeIn 1s ease 1.8s forwards;
-    z-index: 10;
-  }
-  .scroll-line {
-    width: 1px;
-    height: 50px;
-    background: linear-gradient(to bottom, var(--terracotta), transparent);
-    animation: scrollDrop 2s ease-in-out infinite;
-  }
-
-  @keyframes scrollDrop {
-    0%, 100% { transform: scaleY(1); transform-origin: top; opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  /* ── SECTIONS ── */
-  section {
-    padding: clamp(5rem, 10vw, 10rem) clamp(2rem, 8vw, 10rem);
-    position: relative;
-  }
-
-  .section-number {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    color: var(--terracotta);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .section-number::after {
-    content: '';
-    flex: 0 0 60px;
-    height: 1px;
-    background: var(--terracotta);
-    opacity: 0.4;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 4vw, 4.5rem);
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-  }
-
-  .section-title em {
-    font-style: italic;
-    color: var(--sand);
-  }
-
-  /* ── CONTEXTE ── */
-  #contexte {
-    background: linear-gradient(to bottom, var(--navy), rgba(62,75,89,0.95));
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6vw;
-    align-items: center;
-    border-top: 1px solid rgba(242,184,128,0.1);
-  }
-
-  .contexte-text {
-    font-size: clamp(1rem, 1.3vw, 1.35rem);
-    line-height: 1.85;
-    color: rgba(247,227,181,0.8);
-  }
-
-  .contexte-text p + p { margin-top: 1.5em; }
-
-  .contexte-stats {
-    display: grid;
-    grid-template-rows: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-
-  .stat-item {
-    border: 1px solid rgba(127,165,163,0.2);
-    padding: 1.5rem 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s;
-  }
-  .stat-item::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(127,165,163,0.06), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .stat-item:hover { border-color: rgba(127,165,163,0.5); }
-  .stat-item:hover::before { opacity: 1; }
-
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.8rem;
-    color: var(--sand);
-    display: block;
-    line-height: 1;
-    margin-bottom: 0.3rem;
-  }
-
-  .stat-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--slate);
-  }
-
-  /* ── STRATÉGIE TIMELINE ── */
-  #strategie {
-    background: rgba(247,227,181,0.03);
-    border-top: 1px solid rgba(242,184,128,0.1);
-  }
-
-  .strat-intro {
-    font-size: clamp(1.1rem, 1.5vw, 1.6rem);
-    color: var(--sand);
-    font-style: italic;
-    max-width: 55ch;
-    margin: 2rem 0 5rem;
-    line-height: 1.7;
-  }
-
-  .strategy-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    margin-top: 3rem;
-  }
-
-  .strat-card {
-    background: rgba(62,75,89,0.6);
-    padding: 2.5rem 2rem;
-    border-bottom: 3px solid transparent;
-    transition: border-color 0.3s, background 0.3s, transform 0.3s;
-    cursor: default;
-    position: relative;
-  }
-
-  .strat-card:nth-child(1) { border-bottom-color: var(--sand); }
-  .strat-card:nth-child(2) { border-bottom-color: var(--terracotta); }
-  .strat-card:nth-child(3) { border-bottom-color: var(--slate); }
-  .strat-card:nth-child(4) { border-bottom-color: var(--cream); }
-  .strat-card:nth-child(5) { border-bottom-color: var(--sand); }
-  .strat-card:nth-child(6) { border-bottom-color: var(--terracotta); }
-
-  .strat-card:hover {
-    background: rgba(127,165,163,0.1);
-    transform: translateY(-4px);
-  }
-
-  .strat-phase {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: var(--terracotta);
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-
-  .strat-card h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-    line-height: 1.2;
-  }
-
-  .strat-card p {
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: rgba(247,227,181,0.7);
-  }
-
-  .strat-tag {
-    display: inline-block;
-    margin-top: 1.2rem;
-    padding: 0.3rem 0.8rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    border: 1px solid currentColor;
-    border-radius: 0;
-  }
-
-  .strat-card:nth-child(1) .strat-tag { color: var(--sand); }
-  .strat-card:nth-child(2) .strat-tag { color: var(--terracotta); }
-  .strat-card:nth-child(3) .strat-tag { color: var(--slate); }
-  .strat-card:nth-child(4) .strat-tag { color: var(--cream); }
-  .strat-card:nth-child(5) .strat-tag { color: var(--sand); }
-  .strat-card:nth-child(6) .strat-tag { color: var(--terracotta); }
-
-  /* ── IDENTITÉ ── */
-  #identite {
-    border-top: 1px solid rgba(242,184,128,0.1);
-    display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: 8vw;
-    align-items: start;
-  }
-
-  .id-pillars {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    margin-top: 3rem;
-  }
-
-  .pillar {
-    padding: 2rem 0;
-    border-bottom: 1px solid rgba(242,184,128,0.12);
-    display: grid;
-    grid-template-columns: 3rem 1fr;
-    gap: 1.5rem;
-    align-items: start;
-    transition: background 0.3s;
-    cursor: default;
-  }
-
-  .pillar:hover { background: rgba(242,184,128,0.04); }
-
-  .pillar-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    color: var(--terracotta);
-    opacity: 0.4;
-    line-height: 1;
-    font-style: italic;
-  }
-
-  .pillar-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem;
-    margin-bottom: 0.6rem;
-    color: var(--cream);
-  }
-
-  .pillar-text {
-    font-size: 0.9rem;
-    line-height: 1.75;
-    color: rgba(247,227,181,0.65);
-  }
-
-  .id-visual {
-    margin-top: 3rem;
-    position: sticky;
-    top: 6rem;
-  }
-
-  .platforms-map {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-
-  .platform-center {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 110px; height: 110px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--terracotta), var(--sand));
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-family: 'Playfair Display', serif;
-    font-size: 0.85rem;
-    font-style: italic;
-    color: var(--navy);
-    z-index: 10;
-    box-shadow: 0 0 60px rgba(217,140,117,0.3);
-  }
-
-  .platform-center span {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.5rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-top: 0.3rem;
-    opacity: 0.7;
-  }
-
-  /* Orbit ring */
-  .orbit-ring {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 280px; height: 280px;
-    transform: translate(-50%, -50%);
-    border: 1px dashed rgba(127,165,163,0.25);
-    border-radius: 50%;
-    animation: rotateRing 30s linear infinite;
-  }
-
-  @keyframes rotateRing { to { transform: translate(-50%, -50%) rotate(360deg); } }
-
-  .platform-node {
-    position: absolute;
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-align: center;
-    border: 1px solid;
-    gap: 0.3rem;
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: default;
-    color: var(--cream);
-  }
-
-  .platform-node:hover {
-    transform: translate(var(--tx), var(--ty)) scale(1.1);
-    box-shadow: 0 0 20px currentColor;
-  }
-
-  .pn-1 { top: 5%; left: 50%; transform: translateX(-50%); --tx: -50%; --ty: 0;
-    background: rgba(242,184,128,0.08); border-color: var(--sand); color: var(--sand); }
-  .pn-2 { top: 35%; right: 3%; --tx: 0; --ty: 0;
-    background: rgba(217,140,117,0.08); border-color: var(--terracotta); color: var(--terracotta); }
-  .pn-3 { bottom: 5%; right: 20%; --tx: 0; --ty: 0;
-    background: rgba(127,165,163,0.08); border-color: var(--slate); color: var(--slate); }
-  .pn-4 { bottom: 5%; left: 20%; --tx: 0; --ty: 0;
-    background: rgba(247,227,181,0.08); border-color: var(--cream); color: var(--cream); }
-  .pn-5 { top: 35%; left: 3%; --tx: 0; --ty: 0;
-    background: rgba(242,184,128,0.08); border-color: var(--sand); color: var(--sand); }
-
-  .pn-icon { font-size: 1.2rem; }
-
-  /* Connection lines via SVG overlay */
-  .platform-svg {
-    position: absolute; inset: 0;
-    pointer-events: none;
-  }
-
-  /* ── QUOTE ── */
-  #quote {
-    border-top: 1px solid rgba(242,184,128,0.1);
-    text-align: center;
-    background: linear-gradient(135deg, rgba(62,75,89,0.8), rgba(127,165,163,0.05));
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .big-quote {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 4vw, 5rem);
-    line-height: 1.2;
-    font-style: italic;
-    max-width: 18ch;
-    color: var(--cream);
-    position: relative;
-  }
-
-  .big-quote::before {
-    content: '"';
-    font-size: 12rem;
-    color: rgba(217,140,117,0.12);
-    position: absolute;
-    top: -3rem; left: -3rem;
-    font-family: 'Playfair Display', serif;
-    line-height: 1;
-    pointer-events: none;
-  }
-
-  .quote-attr {
-    margin-top: 3rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    color: var(--slate);
-    text-transform: uppercase;
-  }
-
-  .quote-accent {
-    color: var(--terracotta);
-    font-style: normal;
-  }
-
-  /* ── CONCLUSION ── */
-  #conclusion {
-    border-top: 1px solid rgba(242,184,128,0.1);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6vw;
-    align-items: center;
-    background: var(--navy);
-  }
-
-  .conclu-text {
-    font-size: clamp(1rem, 1.3vw, 1.3rem);
-    line-height: 1.85;
-    color: rgba(247,227,181,0.75);
-  }
-
-  .conclu-text p + p { margin-top: 1.5em; }
-
-  .key-takeaways {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-  }
-
-  .takeaway {
-    display: flex;
-    gap: 1.2rem;
-    align-items: flex-start;
-    padding: 1.2rem 1.5rem;
-    border-left: 2px solid var(--terracotta);
-    background: rgba(217,140,117,0.05);
-    transition: background 0.3s, border-color 0.3s;
-  }
-  .takeaway:nth-child(2) { border-left-color: var(--sand); background: rgba(242,184,128,0.05); }
-  .takeaway:nth-child(3) { border-left-color: var(--slate); background: rgba(127,165,163,0.05); }
-  .takeaway:hover { background: rgba(217,140,117,0.1); }
-
-  .takeaway-icon { font-size: 1.3rem; flex-shrink: 0; }
-  .takeaway-body {}
-  .takeaway-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    color: var(--cream);
-    margin-bottom: 0.3rem;
-  }
-  .takeaway-desc {
-    font-size: 0.85rem;
-    color: rgba(247,227,181,0.6);
-    line-height: 1.6;
-    font-family: 'DM Mono', monospace;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid rgba(242,184,128,0.1);
-    padding: 2.5rem clamp(2rem, 8vw, 10rem);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    color: var(--slate);
-    text-transform: uppercase;
-  }
-
-  footer .footer-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    letter-spacing: 0;
-    text-transform: none;
-    color: var(--sand);
-    font-style: italic;
-  }
-
-  /* ── PALETTE STRIP (visual reference) ── */
-  .palette-strip {
-    position: fixed;
-    right: 1.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    z-index: 100;
-    opacity: 0.6;
-    transition: opacity 0.3s;
-  }
-  .palette-strip:hover { opacity: 1; }
-  .ps-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  .ps-dot:hover { transform: scale(1.6); }
-
-  /* ── NAV dots ── */
-  .nav-dots {
-    position: fixed;
-    right: 2.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    z-index: 200;
-  }
-
-  .nav-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: rgba(127,165,163,0.3);
-    cursor: pointer;
-    transition: background 0.3s, transform 0.3s;
-  }
-  .nav-dot.active {
-    background: var(--terracotta);
-    transform: scale(1.5);
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(25px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ── MOBILE ── */
-  @media (max-width: 768px) {
-    #hero, #contexte, #identite, #conclusion {
-      grid-template-columns: 1fr;
-    }
-    .hero-right { display: none; }
-    .strategy-grid { grid-template-columns: 1fr; }
-    .nav-dots { display: none; }
-    .hero-name { font-size: 3.5rem; }
-  }
-</style>
-</head>
-<body>
-
-<!-- Custom cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<!-- Nav dots -->
-<nav class="nav-dots" aria-label="Navigation">
-  <div class="nav-dot active" data-target="hero" title="Intro"></div>
-  <div class="nav-dot" data-target="contexte" title="Contexte"></div>
-  <div class="nav-dot" data-target="strategie" title="Stratégie"></div>
-  <div class="nav-dot" data-target="identite" title="Identité"></div>
-  <div class="nav-dot" data-target="quote" title="Citation"></div>
-  <div class="nav-dot" data-target="conclusion" title="Synthèse"></div>
-</nav>
-
-<!-- ══ HERO ══ -->
-<section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-lines"></div>
-
-  <div class="hero-left">
-    <p class="hero-eyebrow">MMI · Stratégie de présence en ligne · 2026</p>
-    <h1 class="hero-name">
-      Steve<br>
-      <em>Jobs</em>
-    </h1>
-    <p class="hero-tagline">
-      Et si le visionnaire d'Apple débutait sa carrière à l'ère des réseaux sociaux et du personal branding ?
-    </p>
-    <div class="hero-question">
-      Comment un professionnel peut-il être<br>
-      visible et crédible auprès des acteurs<br>
-      de son secteur — aujourd'hui ?
-    </div>
-  </div>
-
-  <div class="hero-right">
-    <div class="hero-portrait">
-      <div class="portrait-frame">
-        <div class="portrait-silhouette"></div>
-      </div>
-      <p class="portrait-label">1955 — 2011 · Co-fondateur Apple</p>
-    </div>
-  </div>
-
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    Défiler
-  </div>
-</section>
-
-<!-- ══ CONTEXTE ══ -->
-<section id="contexte">
-  <div class="reveal">
-    <div class="section-number">01 · Contexte</div>
-    <h2 class="section-title">Qui était<br><em>vraiment</em> Steve ?</h2>
-    <div class="contexte-text" style="margin-top: 2.5rem;">
-      <p>En 1976, Jobs co-fonde Apple dans un garage. Visionnaire, perfectionniste, storyteller né — il révolutionne l'informatique personnelle, la musique numérique et le smartphone.</p>
-      <p>Mais en 2026 : comment aurait-il construit sa réputation professionnelle à l'ère du digital ? Avec quels leviers, quels réseaux, quelle cohérence éditoriale ?</p>
-      <p>Notre hypothèse : sa singularité était en elle-même une stratégie de marque. Il ne cherchait pas à plaire à tous — il cherchait à marquer les esprits de quelques-uns.</p>
-    </div>
-  </div>
-  <div class="contexte-stats reveal" style="transition-delay: 0.2s;">
-    <div class="stat-item">
-      <span class="stat-num">1976</span>
-      <span class="stat-label">Fondation Apple · point de départ</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">$3T+</span>
-      <span class="stat-label">Valorisation Apple aujourd'hui</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">Think<br style="display:none"> different</span>
-      <span class="stat-label" style="font-size: 0.55rem;">Sa ligne éditoriale avant l'heure</span>
-    </div>
-  </div>
-</section>
-
-<!-- ══ STRATÉGIE ══ -->
-<section id="strategie">
-  <div class="reveal">
-    <div class="section-number">02 · Stratégie</div>
-    <h2 class="section-title">La présence<br><em>stratégique</em></h2>
-    <p class="strat-intro">
-      Six leviers pour construire une identité professionnelle cohérente et crédible — comme Jobs l'aurait fait s'il débutait aujourd'hui.
-    </p>
-  </div>
-
-  <div class="strategy-grid">
-    <div class="strat-card reveal" style="transition-delay: 0.1s;">
-      <p class="strat-phase">Phase 1 · Fondation</p>
-      <h3>L'identité de marque personnelle</h3>
-      <p>Un fil conducteur unique : « Technologie + Humanité ». Un logo minimaliste, une charte typographique et chromatique stricte appliquée à tous ses supports.</p>
-      <span class="strat-tag">Personal branding</span>
-    </div>
-
-    <div class="strat-card reveal" style="transition-delay: 0.15s;">
-      <p class="strat-phase">Phase 1 · Fondation</p>
-      <h3>Le site portfolio one-page</h3>
-      <p>Une seule page, un seul message. Sa vision, ses projets, ses conférences. Pas de bruit. Un CTA : vous rencontrer pour changer le monde.</p>
-      <span class="strat-tag">Portfolio web</span>
-    </div>
-
-    <div class="strat-card reveal" style="transition-delay: 0.2s;">
-      <p class="strat-phase">Phase 2 · Contenu</p>
-      <h3>La stratégie éditoriale LinkedIn</h3>
-      <p>3 posts/semaine : une réflexion sur le design, une démo produit, un apprentissage d'échec. La vulnérabilité comme force narrative.</p>
-      <span class="strat-tag">Content strategy</span>
-    </div>
-
-    <div class="strat-card reveal" style="transition-delay: 0.25s;">
-      <p class="strat-phase">Phase 2 · Contenu</p>
-      <h3>La chaîne YouTube & Podcast</h3>
-      <p>Des keynotes courtes (< 8 min), filmées avec l'exigence d'un réalisateur. Le podcast « Simplify Everything » — interviews de créateurs qui osent réduire.</p>
-      <span class="strat-tag">Vidéo & audio</span>
-    </div>
-
-    <div class="strat-card reveal" style="transition-delay: 0.3s;">
-      <p class="strat-phase">Phase 3 · Réseau</p>
-      <h3>La communauté de niche</h3>
-      <p>Un Discord privé « Builders » — 500 membres max, sélectionnés. L'exclusivité crée le désir. Chaque semaine, une session live « Critique de produit ».</p>
-      <span class="strat-tag">Community building</span>
-    </div>
-
-    <div class="strat-card reveal" style="transition-delay: 0.35s;">
-      <p class="strat-phase">Phase 3 · Réseau</p>
-      <h3>La crédibilité par la preuve</h3>
-      <p>Un case study mensuel open-source. Les échecs autant que les succès. La transparence radicale comme différenciateur dans un secteur tech souvent opaque.</p>
-      <span class="strat-tag">Thought leadership</span>
-    </div>
-  </div>
-</section>
-
-<!-- ══ IDENTITÉ ══ -->
-<section id="identite">
-  <div class="reveal">
-    <div class="section-number">03 · Identité</div>
-    <h2 class="section-title">Portfolio,<br>réseaux <em>&</em><br>contenus</h2>
-
-    <div class="id-pillars">
-      <div class="pillar reveal" style="transition-delay: 0.1s;">
-        <span class="pillar-num">I</span>
-        <div>
-          <p class="pillar-title">Cohérence visuelle totale</p>
-          <p class="pillar-text">Même typographie, même palette, même ton sur chaque plateforme. Le personal brand ne souffre aucune inconsistance.</p>
-        </div>
-      </div>
-      <div class="pillar reveal" style="transition-delay: 0.2s;">
-        <span class="pillar-num">II</span>
-        <div>
-          <p class="pillar-title">Contenu à haute valeur, faible volume</p>
-          <p class="pillar-text">Jobs ne twittait pas 30 fois par jour. Il parlait rarement — et quand il parlait, le monde écoutait. La rareté est une stratégie.</p>
-        </div>
-      </div>
-      <div class="pillar reveal" style="transition-delay: 0.3s;">
-        <span class="pillar-num">III</span>
-        <div>
-          <p class="pillar-title">L'écosystème articulé</p>
-          <p class="pillar-text">Portfolio → LinkedIn → Newsletter → Podcast → Communauté. Chaque canal alimente le suivant. Le tout forme une boucle de confiance.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="id-visual reveal" style="transition-delay: 0.2s;">
-    <div class="platforms-map">
-      <svg class="platform-svg" viewBox="0 0 480 480">
-        <line x1="240" y1="55" x2="240" y2="185" stroke="rgba(127,165,163,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="425" y1="178" x2="295" y2="225" stroke="rgba(127,165,163,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="370" y1="380" x2="268" y2="268" stroke="rgba(127,165,163,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="110" y1="380" x2="212" y2="268" stroke="rgba(127,165,163,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="55" y1="178" x2="185" y2="225" stroke="rgba(127,165,163,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
-      </svg>
-
-      <div class="orbit-ring"></div>
-
-      <div class="platform-center">
-        Steve Jobs
-        <span>Marque perso</span>
-      </div>
-
-      <div class="platform-node pn-1">
-        <span class="pn-icon">🔗</span>
-        LinkedIn
-      </div>
-      <div class="platform-node pn-2">
-        <span class="pn-icon">▶</span>
-        YouTube
-      </div>
-      <div class="platform-node pn-3">
-        <span class="pn-icon">🎙</span>
-        Podcast
-      </div>
-      <div class="platform-node pn-4">
-        <span class="pn-icon">💬</span>
-        Discord
-      </div>
-      <div class="platform-node pn-5">
-        <span class="pn-icon">✉</span>
-        Newsletter
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ QUOTE ══ -->
-<section id="quote">
-  <blockquote class="big-quote reveal">
-    Stay hungry,<br>
-    stay <span class="quote-accent">foolish.</span>
-  </blockquote>
-  <p class="quote-attr reveal" style="transition-delay: 0.3s;">Steve Jobs — Stanford Commencement Speech, 2005</p>
-  <p class="reveal" style="transition-delay: 0.5s; margin-top: 2rem; font-size: 1.1rem; font-style: italic; color: rgba(247,227,181,0.6); max-width: 55ch; text-align: center;">
-    Sa ligne éditoriale résumée en quatre mots. C'est ça, une identité professionnelle cohérente.
-  </p>
-</section>
-
-<!-- ══ CONCLUSION ══ -->
-<section id="conclusion">
-  <div class="reveal">
-    <div class="section-number">04 · Synthèse</div>
-    <h2 class="section-title">Ce qu'on<br>retient <em>vraiment</em></h2>
-    <div class="conclu-text" style="margin-top: 2.5rem;">
-      <p>Jobs n'aurait pas tout mis sur les réseaux. Il aurait choisi ses batailles, ses scènes, ses silences. La visibilité n'est pas la dispersion — c'est la concentration.</p>
-      <p>En MMI, notre rôle est de concevoir ces stratégies de présence pour les créatifs qui n'ont pas encore les mots pour raconter ce qu'ils font.</p>
-    </div>
-  </div>
-
-  <div class="key-takeaways reveal" style="transition-delay: 0.2s;">
-    <div class="takeaway">
-      <span class="takeaway-icon">🎯</span>
-      <div class="takeaway-body">
-        <p class="takeaway-title">Identité avant contenu</p>
-        <p class="takeaway-desc">Définir qui on est avant de publier quoi que ce soit. La cohérence est le premier outil de crédibilité.</p>
-      </div>
-    </div>
-    <div class="takeaway">
-      <span class="takeaway-icon">🔁</span>
-      <div class="takeaway-body">
-        <p class="takeaway-title">L'écosystème articulé</p>
-        <p class="takeaway-desc">Portfolio → Réseaux → Newsletter → Communauté. Un cercle vertueux, pas des îles isolées.</p>
-      </div>
-    </div>
-    <div class="takeaway">
-      <span class="takeaway-icon">📡</span>
-      <div class="takeaway-body">
-        <p class="takeaway-title">Rareté & profondeur</p>
-        <p class="takeaway-desc">Moins mais mieux. Dans l'économie de l'attention, la qualité rare bat la quantité banale.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ FOOTER ══ -->
-<footer>
-  <span class="footer-brand">Steve Jobs — 2026 Edition</span>
-  <span>MMI · Stratégie de présence en ligne</span>
-  <span>#F7E3B5 · #F2B880 · #D98C75 · #7FA5A3 · #3E4B59</span>
-</footer>
-
-<script>
-  // ── Cursor
-  const cursor = document.getElementById('cursor');
-  const cursorRing = document.getElementById('cursorRing');
-  let mx = 0, my = 0;
-
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.transform = `translate(${mx - 5}px, ${my - 5}px)`;
-    cursorRing.style.transform = `translate(${mx - 18}px, ${my - 18}px)`;
-  });
-
-  document.querySelectorAll('a, button, .strat-card, .pillar, .takeaway, .nav-dot, .platform-node').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursorRing.style.width = '56px';
-      cursorRing.style.height = '56px';
-      cursorRing.style.borderColor = 'rgba(217,140,117,0.7)';
-    });
-    el.addEventListener('mouseleave', () => {
-      cursorRing.style.width = '36px';
-      cursorRing.style.height = '36px';
-      cursorRing.style.borderColor = 'rgba(217,140,117,0.4)';
-    });
-  });
-
-  // ── Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.12 });
-
-  reveals.forEach(r => observer.observe(r));
-
-  // ── Nav dots
-  const sections = ['hero', 'contexte', 'strategie', 'identite', 'quote', 'conclusion'];
-  const dots = document.querySelectorAll('.nav-dot');
-
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      document.getElementById(sections[i]).scrollIntoView({ behavior: 'smooth' });
-    });
-  });
-
-  const sectionObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const id = e.target.id;
-        const idx = sections.indexOf(id);
-        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-      }
-    });
-  }, { threshold: 0.4 });
-
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) sectionObserver.observe(el);
-  });
-</script>
-</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+  <head>
+    <title>STEVE JOBS -- Apple Computer Co.</title>
+    <meta name="author" content="S. Jobs" />
+    <meta
+      name="keywords"
+      content="apple, computer, microcomputer, personal computer, wozniak"
+    />
+  </head>
+  <body
+    bgcolor="#c8b88a"
+    text="#1a1208"
+    link="#6b1a0a"
+    vlink="#3d1a6b"
+    alink="#ff0000"
+  >
+    <center>
+      <table
+        border="4"
+        cellpadding="8"
+        cellspacing="0"
+        width="640"
+        bgcolor="#e8d9b5"
+      >
+        <tr>
+          <td align="center" bgcolor="#1a1208">
+            <font color="#c8b88a" size="1" face="courier">
+              &nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;<br />
+            </font>
+            <font color="#e8c840" size="6" face="courier"
+              ><b>
+                &nbsp;&nbsp;* * * * * * * * * * * * * * * * * * * * * * * *
+                *&nbsp;&nbsp;
+              </b></font
+            ><br />
+            <font color="#c8b88a" size="2" face="courier"
+              ><b> STEVEN P. JOBS </b></font
+            ><br />
+            <font color="#a09070" size="1" face="courier">
+              Co-Founder &amp; Director of Operations -- APPLE COMPUTER CO.<br />
+              770 Welch Rd, Palo Alto, California 94304 &nbsp;|&nbsp; Tel: (408)
+              996-1010
+            </font>
+            <font color="#c8b88a" size="1" face="courier">
+              &nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;<br />
+            </font>
+          </td>
+        </tr>
+      </table>
+
+      <br />
+
+      <table border="2" cellpadding="0" cellspacing="0" width="640">
+        <tr>
+          <td align="center" bgcolor="#6b1a0a" width="106">
+            <font color="#e8d9b5" size="2" face="courier"
+              ><b>[&nbsp;HOME&nbsp;]</b></font
+            >
+          </td>
+          <td align="center" bgcolor="#4a3a1a" width="106">
+            <font color="#e8d9b5" size="2" face="courier"
+              ><b>[&nbsp;ABOUT&nbsp;]</b></font
+            >
+          </td>
+          <td align="center" bgcolor="#4a3a1a" width="106">
+            <font color="#e8d9b5" size="2" face="courier"
+              ><b>[&nbsp;APPLE&nbsp;II&nbsp;]</b></font
+            >
+          </td>
+          <td align="center" bgcolor="#4a3a1a" width="106">
+            <font color="#e8d9b5" size="2" face="courier"
+              ><b>[&nbsp;VISION&nbsp;]</b></font
+            >
+          </td>
+          <td align="center" bgcolor="#4a3a1a" width="106">
+            <font color="#e8d9b5" size="2" face="courier"
+              ><b>[&nbsp;PRESS&nbsp;]</b></font
+            >
+          </td>
+          <td align="center" bgcolor="#4a3a1a" width="110">
+            <font color="#e8d9b5" size="2" face="courier"
+              ><b>[&nbsp;CONTACT&nbsp;]</b></font
+            >
+          </td>
+        </tr>
+      </table>
+
+      <br />
+
+      <table
+        border="3"
+        cellpadding="12"
+        cellspacing="2"
+        width="640"
+        bgcolor="#ddd0a8"
+      >
+        <tr>
+          <td valign="top" width="200" bgcolor="#e8d9b5">
+            <center>
+              <table border="4" cellpadding="4" bgcolor="#1a1208" width="160">
+                <tr>
+                  <td align="center">
+                    <font color="#e8c840" face="courier" size="1">
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+                      &nbsp;&nbsp;[&nbsp;&nbsp;photo&nbsp;&nbsp;]&nbsp;&nbsp;<br />
+                      &nbsp;&nbsp;[&nbsp;S.JOBS &nbsp;]&nbsp;&nbsp;<br />
+                      &nbsp;&nbsp;[&nbsp;&nbsp;1977&nbsp;&nbsp;&nbsp;]&nbsp;&nbsp;<br />
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+                    </font>
+                  </td>
+                </tr>
+              </table>
+            </center>
+
+            <br />
+
+            <font face="courier" size="2" color="#1a1208">
+              <b>-- QUICK FACTS --</b><br />
+              <hr size="1" color="#6b1a0a" />
+              Born: Feb 24, 1955<br />
+              San Francisco, CA<br />
+              <br />
+              Reed College (1972)<br />
+              <i>-- dropout --</i><br />
+              <br />
+              Atari, Inc. (1974)<br />
+              <i>-- technician --</i><br />
+              <br />
+              Apple Computer<br />
+              Founded: Apr 1, 1976<br />
+              w/ S. Wozniak<br />
+              &amp; R. Wayne<br />
+              <hr size="1" color="#6b1a0a" />
+              <br />
+              <b>-- INTERESTS --</b><br />
+              <hr size="1" color="#6b1a0a" />
+              . Zen Buddhism<br />
+              . Calligraphy<br />
+              . Electronics<br />
+              . Bob Dylan<br />
+              . The Beatles<br />
+              . Vegetarianism<br />
+              <hr size="1" color="#6b1a0a" />
+            </font>
+
+            <br />
+            <center>
+              <table border="1" cellpadding="3" bgcolor="#6b1a0a">
+                <tr>
+                  <td>
+                    <font color="#e8d9b5" face="courier" size="1"
+                      ><b>
+                        &gt;&gt; WRITE TO ME &lt;&lt;<br />
+                        sjobs@apple.com<br />
+                        [ARPANET]
+                      </b></font
+                    >
+                  </td>
+                </tr>
+              </table>
+            </center>
+          </td>
+          <td valign="top" bgcolor="#e8d9b5">
+            <font face="courier" size="2" color="#1a1208">
+              <center>
+                <b><u>WELCOME TO MY PAGE ON THE WORLD INFORMATION NETWORK</u></b
+                ><br />
+                <font size="1" color="#6b1a0a"
+                  >Last updated: March 1977 &nbsp;|&nbsp; Best viewed with a 300
+                  baud modem</font
+                >
+              </center>
+
+              <br />
+
+              <table border="1" cellpadding="6" bgcolor="#f5edd5" width="100%">
+                <tr>
+                  <td>
+                    <b
+                      >&gt;&gt;&gt; ANNOUNCEMENT -- COMING VERY SOON
+                      &lt;&lt;&lt;</b
+                    ><br />
+                    <br />
+                    The APPLE ][ personal computer will be unveiled at the<br />
+                    <b>West Coast Computer Faire</b> -- April 16-17, 1977<br />
+                    Brooks Hall, San Francisco, California.<br />
+                    <br />
+                    This machine will CHANGE EVERYTHING.<br />
+                    I promise you that.<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--
+                    S.J.
+                  </td>
+                </tr>
+              </table>
+
+              <br />
+              <hr size="2" color="#6b1a0a" />
+
+              <b>:: WHO AM I ::</b>
+              <hr size="1" color="#6b1a0a" />
+
+              My name is Steve Jobs. I am 22 years old and I live in Los Altos,
+              California. Together with my friend and partner Steve Wozniak, I
+              have co-founded a company called Apple Computer. We believe --
+              deeply -- that the personal computer is not a machine for
+              engineers and hobbyists alone. It belongs in the hands of ordinary
+              people.<br />
+              <br />
+              People ask me why I dropped out of college. The honest answer is
+              that I didn't know what I wanted to do with my life, and it didn't
+              seem right to spend my parents' money on something I wasn't sure
+              about. So I dropped out and started sitting in on the classes that
+              actually interested me -- like calligraphy. That class taught me
+              that beauty and precision are not opposites. That lesson shows up
+              in everything we build at Apple.<br />
+              <br />
+
+              <hr size="1" color="#6b1a0a" />
+              <b>:: THE APPLE COMPUTER STORY ::</b>
+              <hr size="1" color="#6b1a0a" />
+
+              It started in a garage. My parents' garage, to be exact, in Los
+              Altos. Woz had built the most extraordinary computer circuit board
+              I had ever seen -- the Apple I. I knew immediately we had to sell
+              it. We sold our most prized possessions: Woz sold his HP
+              scientific calculator; I sold my Volkswagen bus. We raised $1,350
+              and Apple Computer was born.<br />
+              <br />
+              That was April 1976. A year later, we have over two dozen
+              employees, a real office, and venture capital backing from Mr.
+              Mike Markkula. And we are about to unveil the
+              <b>Apple ][</b>.<br />
+              <br />
+
+              <center>
+                <table border="2" cellpadding="8" bgcolor="#1a1208" width="90%">
+                  <tr>
+                    <td align="center">
+                      <font color="#e8c840" face="courier" size="2">
+                        <b>
+                          +------------------------------------------+<br />
+                          |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          |&nbsp;&nbsp;&nbsp;&nbsp;A P P L
+                          E&nbsp;&nbsp;&nbsp;][&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          |&nbsp;&nbsp;* 4K RAM (expandable to
+                          48K)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          |&nbsp;&nbsp;* MOS Technology 6502 @
+                          1MHz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          |&nbsp;&nbsp;* INTEGER BASIC (built-in
+                          ROM)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          |&nbsp;&nbsp;* HI-RES COLOR GRAPHICS
+                          (!)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          |&nbsp;&nbsp;* 8 expansion
+                          slots&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          |&nbsp;&nbsp;* Built-in
+                          speaker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          |&nbsp;&nbsp;* Typewriter-style
+                          keyboard&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          |&nbsp;&nbsp;Price: $1,298 USD (4K base
+                          model)&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
+                          +------------------------------------------+
+                        </b>
+                      </font>
+                    </td>
+                  </tr>
+                </table>
+              </center>
+
+              <br />
+              <hr size="1" color="#6b1a0a" />
+              <b>:: A WORD ON DESIGN ::</b>
+              <hr size="1" color="#6b1a0a" />
+
+              Most computer companies think their customers are engineers. They
+              produce machines that look like instruments -- beige, boxy, ugly.
+              We disagree. A computer is a tool, yes, but it should also be
+              something you are <i>proud</i> to have in your home. The Apple
+              ]['s case was designed with the same care as its circuitry. It is
+              molded plastic, smooth and clean. It looks like it belongs on a
+              desk next to a typewriter or a telephone -- not in a
+              laboratory.<br />
+              <br />
+              Woz is the genius who builds these things. I am the one who
+              insists they be beautiful. We need each other.<br />
+              <br />
+
+              <hr size="1" color="#6b1a0a" />
+              <b>:: WHAT I BELIEVE ::</b>
+              <hr size="1" color="#6b1a0a" />
+
+              I believe the personal computer will be as important to
+              civilization as the printing press. I believe that ordinary people
+              -- teachers, writers, musicians, small businessmen -- deserve
+              access to computing power. Not timesharing. Not terminals
+              connected to some distant mainframe. Their <i>own</i> computer. On
+              their <i>own</i> desk.<br />
+              <br />
+              We are at the beginning of something enormous. And we are just
+              getting started.<br />
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--
+              Steven P. Jobs, Los Altos CA, March 1977<br />
+              <br />
+
+              <hr size="2" color="#6b1a0a" />
+
+              <center>
+                <font size="1" face="courier" color="#6b1a0a">
+                  [ <b>HOME</b> ] &nbsp;|&nbsp; [ <b>ABOUT</b> ] &nbsp;|&nbsp; [
+                  <b>APPLE ][</b> ] &nbsp;|&nbsp; [ <b>VISION</b> ]
+                  &nbsp;|&nbsp; [ <b>PRESS</b> ] &nbsp;|&nbsp; [
+                  <b>CONTACT</b> ]<br />
+                  <br />
+                  &copy; 1977 Steven P. Jobs &amp; Apple Computer Co.
+                  &nbsp;|&nbsp; All rights reserved.<br />
+                  This page was composed on an Apple ][ prototype running
+                  Integer BASIC.<br />
+                  It is best experienced at 1200 baud or higher. Screen width:
+                  80 columns.<br />
+                  <br />
+                  <b>* * * APPLE COMPUTER -- BYTE INTO AN APPLE TODAY * * *</b>
+                </font>
+              </center>
+            </font>
+          </td>
+        </tr>
+      </table>
+
+      <br />
+
+      <table
+        border="1"
+        cellpadding="6"
+        cellspacing="0"
+        width="640"
+        bgcolor="#4a3a1a"
+      >
+        <tr>
+          <td align="center">
+            <font face="courier" size="1" color="#c8b88a">
+              <b
+                >VISITOR COUNT SINCE JAN 1, 1977 :
+                [&nbsp;&nbsp;00143&nbsp;&nbsp;]</b
+              >
+              &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp; Thank you for visiting.
+              Please sign my <u>GUESTBOOK</u>.<br />
+              This site is a member of the HOMEBREW COMPUTER CLUB WEBRING
+              &nbsp;|&nbsp; [ &lt;&lt; PREV ] &nbsp; [ NEXT &gt;&gt; ]
+            </font>
+          </td>
+        </tr>
+      </table>
+    </center>
+  </body>
 </html>
