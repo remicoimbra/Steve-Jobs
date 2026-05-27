@@ -1,359 +1,1016 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>STEVE JOBS -- Apple Computer Co.</title>
-    <meta name="author" content="S. Jobs" />
-    <meta
-      name="keywords"
-      content="apple, computer, microcomputer, personal computer, wozniak"
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Steve Jobs — Personal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap"
+      rel="stylesheet"
     />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --cream: #f0ebe0;
+        --paper: #e8e0d0;
+        --ink: #1a1714;
+        --mid: #5a5248;
+        --accent: #c8440a;
+        --line: rgba(26, 23, 20, 0.12);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--cream);
+        color: var(--ink);
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: clamp(16px, 1.1vw, 18px);
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      /* ── NOISE OVERLAY ── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 100;
+        opacity: 0.45;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.4rem 3rem;
+        mix-blend-mode: multiply;
+      }
+
+      .nav-logo {
+        font-family: "DM Mono", monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--mid);
+        opacity: 0;
+        animation: fadeSlideDown 0.8s 0.3s forwards;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2.4rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        font-family: "DM Mono", monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--mid);
+        transition: color 0.25s;
+        opacity: 0;
+        animation: fadeSlideDown 0.8s forwards;
+      }
+
+      .nav-links li:nth-child(1) a {
+        animation-delay: 0.4s;
+      }
+      .nav-links li:nth-child(2) a {
+        animation-delay: 0.5s;
+      }
+      .nav-links li:nth-child(3) a {
+        animation-delay: 0.6s;
+      }
+      .nav-links li:nth-child(4) a {
+        animation-delay: 0.7s;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+
+      /* ── HERO ── */
+      .hero {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        position: relative;
+      }
+
+      .hero-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 7rem 3rem 5rem 3rem;
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 1.6rem;
+        opacity: 0;
+        animation: fadeSlideUp 0.9s 0.6s forwards;
+      }
+
+      .hero-name {
+        font-size: clamp(4rem, 7vw, 8.5rem);
+        font-weight: 300;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        opacity: 0;
+        animation: fadeSlideUp 0.9s 0.75s forwards;
+      }
+
+      .hero-name em {
+        font-style: italic;
+        font-weight: 300;
+        color: var(--mid);
+      }
+
+      .hero-tagline {
+        margin-top: 2.5rem;
+        font-size: clamp(1rem, 1.3vw, 1.25rem);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--mid);
+        max-width: 28rem;
+        line-height: 1.6;
+        opacity: 0;
+        animation: fadeSlideUp 0.9s 0.95s forwards;
+      }
+
+      .hero-meta {
+        margin-top: 4rem;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        opacity: 0;
+        animation: fadeSlideUp 0.9s 1.1s forwards;
+      }
+
+      .hero-meta-line {
+        width: 3rem;
+        height: 1px;
+        background: var(--accent);
+      }
+
+      .hero-meta-text {
+        font-family: "DM Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--mid);
+      }
+
+      /* ── HERO RIGHT (IMAGE) ── */
+      .hero-right {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-img-wrap {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        animation: fadeIn 1.2s 1s forwards;
+        /* Anchor image to bottom-right corner */
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+      }
+
+      .hero-img-wrap img {
+        /* Intrinsic sizing: let the image show fully, anchored bottom-right */
+        display: block;
+        width: auto;
+        height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        object-position: right bottom;
+        filter: grayscale(30%) contrast(1.05);
+        /* Parallax transform-origin from bottom-right */
+        transform-origin: right bottom;
+      }
+
+      /* On very large screens, ensure the image doesn't overflow weirdly */
+      @media (min-width: 1400px) {
+        .hero-img-wrap img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: right bottom;
+        }
+      }
+
+      /* warm tint overlay */
+      .hero-img-wrap::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(240, 235, 224, 0.18) 0%,
+          rgba(200, 68, 10, 0.06) 100%
+        );
+        mix-blend-mode: multiply;
+      }
+
+      /* gradient bleed left */
+      .hero-right::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 30%;
+        background: linear-gradient(to right, var(--cream), transparent);
+        z-index: 2;
+      }
+
+      /* ── HORIZONTAL RULE ── */
+      .divider {
+        border: none;
+        border-top: 1px solid var(--line);
+        margin: 0 3rem;
+      }
+
+      /* ── SECTION SHARED ── */
+      section {
+        padding: 7rem 3rem;
+      }
+
+      .section-label {
+        font-family: "DM Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 3rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .section-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--line);
+      }
+
+      /* ── ABOUT ── */
+      .about {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 5rem;
+        align-items: start;
+      }
+
+      .about-sticky {
+        position: sticky;
+        top: 7rem;
+      }
+
+      .about-number {
+        font-size: clamp(5rem, 10vw, 12rem);
+        font-weight: 300;
+        font-style: italic;
+        line-height: 1;
+        color: var(--paper);
+        -webkit-text-stroke: 1px var(--line);
+        margin-bottom: 1rem;
+        letter-spacing: -0.04em;
+      }
+
+      .about-title {
+        font-size: clamp(1.8rem, 2.5vw, 2.8rem);
+        font-weight: 300;
+        line-height: 1.15;
+        color: var(--ink);
+        margin-bottom: 2rem;
+      }
+
+      .about-title em {
+        font-style: italic;
+        color: var(--mid);
+      }
+
+      .about-body p {
+        font-size: clamp(1.05rem, 1.2vw, 1.2rem);
+        font-weight: 300;
+        color: var(--mid);
+        margin-bottom: 1.6rem;
+      }
+
+      .about-body p strong {
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      /* ── PRODUCT SECTION ── */
+      .product {
+        background: var(--ink);
+        color: var(--cream);
+        margin: 0 -3rem;
+        padding: 7rem 6rem;
+      }
+
+      .product .section-label {
+        color: var(--accent);
+      }
+      .product .section-label::after {
+        background: rgba(240, 235, 224, 0.1);
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6rem;
+        align-items: center;
+      }
+
+      .product-text h2 {
+        font-size: clamp(2.5rem, 4.5vw, 5.5rem);
+        font-weight: 300;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        color: var(--cream);
+        margin-bottom: 2rem;
+      }
+
+      .product-text h2 em {
+        font-style: italic;
+        color: rgba(240, 235, 224, 0.5);
+      }
+
+      .product-text p {
+        font-size: clamp(1rem, 1.2vw, 1.2rem);
+        font-weight: 300;
+        color: rgba(240, 235, 224, 0.65);
+        line-height: 1.75;
+        margin-bottom: 1.4rem;
+      }
+
+      .product-specs {
+        margin-top: 3rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .spec-item {
+        padding-top: 1rem;
+        border-top: 1px solid rgba(240, 235, 224, 0.12);
+      }
+
+      .spec-label {
+        font-family: "DM Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.4rem;
+      }
+
+      .spec-value {
+        font-size: 1rem;
+        font-weight: 300;
+        color: rgba(240, 235, 224, 0.8);
+      }
+
+      .product-image {
+        position: relative;
+      }
+
+      .product-image img {
+        width: 100%;
+        border-radius: 2px;
+        filter: grayscale(20%) contrast(1.1) brightness(0.95);
+        display: block;
+      }
+
+      .product-image::before {
+        content: "";
+        position: absolute;
+        inset: -1.5rem -1.5rem 1.5rem 1.5rem;
+        border: 1px solid rgba(240, 235, 224, 0.08);
+        border-radius: 2px;
+        z-index: -1;
+      }
+
+      .coming-soon-tag {
+        position: absolute;
+        top: -1rem;
+        right: -1rem;
+        background: var(--accent);
+        color: var(--cream);
+        font-family: "DM Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        padding: 0.5rem 1rem;
+      }
+
+      /* ── PHILOSOPHY ── */
+      .philosophy {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 4rem;
+      }
+
+      .phil-item {
+        padding-top: 2rem;
+        border-top: 1px solid var(--line);
+      }
+
+      .phil-num {
+        font-family: "DM Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.2em;
+        color: var(--accent);
+        margin-bottom: 1.2rem;
+      }
+
+      .phil-title {
+        font-size: clamp(1.3rem, 1.8vw, 1.9rem);
+        font-weight: 300;
+        font-style: italic;
+        line-height: 1.2;
+        color: var(--ink);
+        margin-bottom: 1rem;
+      }
+
+      .phil-text {
+        font-size: 0.95rem;
+        font-weight: 300;
+        color: var(--mid);
+        line-height: 1.75;
+      }
+
+      /* ── PULLQUOTE ── */
+      .pullquote-section {
+        padding: 8rem 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .pullquote {
+        max-width: 48rem;
+        text-align: center;
+      }
+
+      .pullquote p {
+        font-size: clamp(1.6rem, 3vw, 3rem);
+        font-weight: 300;
+        font-style: italic;
+        line-height: 1.3;
+        color: var(--ink);
+        margin-bottom: 2rem;
+      }
+
+      .pullquote cite {
+        font-family: "DM Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--mid);
+        font-style: normal;
+      }
+
+      /* ── CONTACT ── */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6rem;
+        align-items: end;
+      }
+
+      .contact-left h2 {
+        font-size: clamp(2.5rem, 4vw, 5rem);
+        font-weight: 300;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        margin-bottom: 2rem;
+      }
+
+      .contact-left h2 em {
+        font-style: italic;
+        color: var(--mid);
+      }
+
+      .contact-left p {
+        font-size: 1.05rem;
+        font-weight: 300;
+        color: var(--mid);
+        line-height: 1.7;
+        max-width: 28rem;
+      }
+
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.8rem;
+      }
+
+      .form-field {
+        position: relative;
+      }
+
+      .form-field label {
+        font-family: "DM Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--mid);
+        display: block;
+        margin-bottom: 0.6rem;
+      }
+
+      .form-field input,
+      .form-field textarea {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--line);
+        padding: 0.6rem 0;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.05rem;
+        font-weight: 300;
+        color: var(--ink);
+        outline: none;
+        transition: border-color 0.3s;
+      }
+
+      .form-field input:focus,
+      .form-field textarea:focus {
+        border-bottom-color: var(--accent);
+      }
+
+      .form-field textarea {
+        resize: none;
+        height: 6rem;
+      }
+
+      .btn-send {
+        display: inline-flex;
+        align-items: center;
+        gap: 1.2rem;
+        background: none;
+        border: 1px solid var(--ink);
+        padding: 0.9rem 2rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink);
+        cursor: pointer;
+        transition:
+          background 0.3s,
+          color 0.3s;
+        align-self: flex-start;
+      }
+
+      .btn-send:hover {
+        background: var(--ink);
+        color: var(--cream);
+      }
+
+      .btn-arrow {
+        width: 1.2rem;
+        height: 1px;
+        background: currentColor;
+        position: relative;
+        transition: width 0.3s;
+      }
+
+      .btn-arrow::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: -3px;
+        width: 6px;
+        height: 6px;
+        border-top: 1px solid currentColor;
+        border-right: 1px solid currentColor;
+        transform: rotate(45deg);
+      }
+
+      .btn-send:hover .btn-arrow {
+        width: 2rem;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 2.5rem 3rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      footer p {
+        font-family: "DM Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--mid);
+      }
+
+      /* ── ANIMATIONS ── */
+      @keyframes fadeSlideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-14px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      @keyframes fadeSlideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* ── SCROLL REVEAL ── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 900px) {
+        nav {
+          padding: 1.2rem 1.5rem;
+        }
+        .hero {
+          grid-template-columns: 1fr;
+          min-height: auto;
+        }
+        .hero-left {
+          padding: 7rem 1.5rem 3rem;
+        }
+        .hero-right {
+          height: 75vw;
+          min-height: 280px;
+        }
+        /* Mobile: cover + centré en haut pour voir le visage */
+        .hero-img-wrap img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center top;
+        }
+        section {
+          padding: 5rem 1.5rem;
+        }
+        .about {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .about-sticky {
+          position: static;
+        }
+        .product {
+          padding: 5rem 1.5rem;
+          margin: 0 -1.5rem;
+        }
+        .product-grid {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+        .philosophy {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+        .contact-grid {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+        footer {
+          flex-direction: column;
+          gap: 1rem;
+          text-align: center;
+        }
+        .divider {
+          margin: 0 1.5rem;
+        }
+      }
+    </style>
   </head>
-  <body
-    bgcolor="#c8b88a"
-    text="#1a1208"
-    link="#6b1a0a"
-    vlink="#3d1a6b"
-    alink="#ff0000"
-  >
-    <center>
-      <table
-        border="4"
-        cellpadding="8"
-        cellspacing="0"
-        width="640"
-        bgcolor="#e8d9b5"
-      >
-        <tr>
-          <td align="center" bgcolor="#1a1208">
-            <font color="#c8b88a" size="1" face="courier">
-              &nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;<br />
-            </font>
-            <font color="#e8c840" size="6" face="courier"
-              ><b>
-                &nbsp;&nbsp;* * * * * * * * * * * * * * * * * * * * * * * *
-                *&nbsp;&nbsp;
-              </b></font
-            ><br />
-            <font color="#c8b88a" size="2" face="courier"
-              ><b> STEVEN P. JOBS </b></font
-            ><br />
-            <font color="#a09070" size="1" face="courier">
-              Co-Founder &amp; Director of Operations -- APPLE COMPUTER CO.<br />
-              770 Welch Rd, Palo Alto, California 94304 &nbsp;|&nbsp; Tel: (408)
-              996-1010
-            </font>
-            <font color="#c8b88a" size="1" face="courier">
-              &nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;<br />
-            </font>
-          </td>
-        </tr>
-      </table>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <span class="nav-logo">S. Jobs — 1977</span>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#product">Apple II</a></li>
+        <li><a href="#philosophy">Philosophy</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
 
-      <br />
+    <!-- HERO -->
+    <section class="hero" style="padding: 0">
+      <div class="hero-left">
+        <p class="hero-eyebrow">Cupertino, California &mdash; 1977</p>
+        <h1 class="hero-name">Steve<br /><em>Jobs</em></h1>
+        <p class="hero-tagline">
+          Co-founder of Apple Computer. Working on something that will change
+          the way you think about machines.
+        </p>
+        <div class="hero-meta">
+          <span class="hero-meta-line"></span>
+          <span class="hero-meta-text">Apple Computer, Inc.</span>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-img-wrap">
+          <img src="ps.webp" alt="Steve Jobs, 1977" />
+        </div>
+      </div>
+    </section>
 
-      <table border="2" cellpadding="0" cellspacing="0" width="640">
-        <tr>
-          <td align="center" bgcolor="#6b1a0a" width="106">
-            <font color="#e8d9b5" size="2" face="courier"
-              ><b>[&nbsp;HOME&nbsp;]</b></font
-            >
-          </td>
-          <td align="center" bgcolor="#4a3a1a" width="106">
-            <font color="#e8d9b5" size="2" face="courier"
-              ><b>[&nbsp;ABOUT&nbsp;]</b></font
-            >
-          </td>
-          <td align="center" bgcolor="#4a3a1a" width="106">
-            <font color="#e8d9b5" size="2" face="courier"
-              ><b>[&nbsp;APPLE&nbsp;II&nbsp;]</b></font
-            >
-          </td>
-          <td align="center" bgcolor="#4a3a1a" width="106">
-            <font color="#e8d9b5" size="2" face="courier"
-              ><b>[&nbsp;VISION&nbsp;]</b></font
-            >
-          </td>
-          <td align="center" bgcolor="#4a3a1a" width="106">
-            <font color="#e8d9b5" size="2" face="courier"
-              ><b>[&nbsp;PRESS&nbsp;]</b></font
-            >
-          </td>
-          <td align="center" bgcolor="#4a3a1a" width="110">
-            <font color="#e8d9b5" size="2" face="courier"
-              ><b>[&nbsp;CONTACT&nbsp;]</b></font
-            >
-          </td>
-        </tr>
-      </table>
+    <hr class="divider" />
 
-      <br />
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-label">About</div>
+      <div class="about">
+        <div class="about-sticky reveal">
+          <div class="about-number">22</div>
+          <h2 class="about-title">
+            Building the<br /><em>personal</em><br />computer era.
+          </h2>
+        </div>
+        <div class="about-body reveal">
+          <p>
+            My name is Steve Jobs. I grew up in the Bay Area and dropped out of
+            Reed College after six months &mdash; one of the better decisions
+            I've made. I spent the next year auditing classes, sleeping on
+            floors, and trying to figure out what I was meant to do.
+          </p>
+          <p>
+            In 1976, <strong>Steve Wozniak</strong> and I started Apple Computer
+            out of my family's garage in Los Altos. We sold the Apple I as a kit
+            to hobbyists. It worked. Then we asked ourselves: what if we made a
+            computer that anyone could use? Not just engineers. Anyone.
+          </p>
+          <p>
+            That question is driving everything we do right now. I believe the
+            computer is the most remarkable tool we've ever built. And it
+            doesn't belong only to corporations and universities. It belongs
+            <strong>in every home, on every desk.</strong>
+          </p>
+          <p>We are very close to something. I can feel it.</p>
+        </div>
+      </div>
+    </section>
 
-      <table
-        border="3"
-        cellpadding="12"
-        cellspacing="2"
-        width="640"
-        bgcolor="#ddd0a8"
-      >
-        <tr>
-          <td valign="top" width="200" bgcolor="#e8d9b5">
-            <center>
-              <table border="4" cellpadding="4" bgcolor="#1a1208" width="160">
-                <tr>
-                  <td align="center">
-                    <font color="#e8c840" face="courier" size="1">
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
-                      &nbsp;&nbsp;[&nbsp;&nbsp;photo&nbsp;&nbsp;]&nbsp;&nbsp;<br />
-                      &nbsp;&nbsp;[&nbsp;S.JOBS &nbsp;]&nbsp;&nbsp;<br />
-                      &nbsp;&nbsp;[&nbsp;&nbsp;1977&nbsp;&nbsp;&nbsp;]&nbsp;&nbsp;<br />
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
-                    </font>
-                  </td>
-                </tr>
-              </table>
-            </center>
+    <hr class="divider" />
 
-            <br />
+    <!-- PRODUCT -->
+    <section id="product" style="padding: 0">
+      <div class="product">
+        <div class="section-label">Apple II</div>
+        <div class="product-grid">
+          <div class="product-text reveal">
+            <h2>A computer<br />for the<br /><em>rest of us.</em></h2>
+            <p>
+              The Apple II is not a kit. It is a finished product &mdash; a real
+              computer in a real case, ready to use the moment you set it down
+              on your desk. Color graphics. A built-in keyboard. Sound.
+              Expandability through eight open slots.
+            </p>
+            <p>
+              Woz engineered a machine that shouldn't exist at this price. I
+              made sure it would be something you'd be proud to own.
+            </p>
+            <div class="product-specs">
+              <div class="spec-item">
+                <div class="spec-label">Processor</div>
+                <div class="spec-value">MOS 6502, 1 MHz</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-label">RAM</div>
+                <div class="spec-value">4 KB &mdash; 48 KB</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-label">Display</div>
+                <div class="spec-value">Color &amp; Hi-Res Graphics</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-label">Expansion</div>
+                <div class="spec-value">8 Open Slots</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-label">Storage</div>
+                <div class="spec-value">Cassette / Floppy (soon)</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-label">Launch</div>
+                <div class="spec-value">West Coast Computer Faire, 1977</div>
+              </div>
+            </div>
+          </div>
+          <div class="product-image reveal">
+            <img
+              src="https://png.pngtree.com/png-vector/20250805/ourlarge/pngtree-classic-apple-ii-monitor-vintage-computer-design-from-the-1980s-on-png-image_16972418.webp"
+              alt="Apple II computer, 1977"
+            />
+            <div class="coming-soon-tag">Coming Soon</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <font face="courier" size="2" color="#1a1208">
-              <b>-- QUICK FACTS --</b><br />
-              <hr size="1" color="#6b1a0a" />
-              Born: Feb 24, 1955<br />
-              San Francisco, CA<br />
-              <br />
-              Reed College (1972)<br />
-              <i>-- dropout --</i><br />
-              <br />
-              Atari, Inc. (1974)<br />
-              <i>-- technician --</i><br />
-              <br />
-              Apple Computer<br />
-              Founded: Apr 1, 1976<br />
-              w/ S. Wozniak<br />
-              &amp; R. Wayne<br />
-              <hr size="1" color="#6b1a0a" />
-              <br />
-              <b>-- INTERESTS --</b><br />
-              <hr size="1" color="#6b1a0a" />
-              . Zen Buddhism<br />
-              . Calligraphy<br />
-              . Electronics<br />
-              . Bob Dylan<br />
-              . The Beatles<br />
-              . Vegetarianism<br />
-              <hr size="1" color="#6b1a0a" />
-            </font>
+    <!-- PULLQUOTE -->
+    <div class="pullquote-section">
+      <blockquote class="pullquote reveal">
+        <p>
+          "The computer is the most important tool human beings have ever
+          invented. We are just at the very beginning of what it can do."
+        </p>
+        <cite>&mdash; Steve Jobs, 1977</cite>
+      </blockquote>
+    </div>
 
-            <br />
-            <center>
-              <table border="1" cellpadding="3" bgcolor="#6b1a0a">
-                <tr>
-                  <td>
-                    <font color="#e8d9b5" face="courier" size="1"
-                      ><b>
-                        &gt;&gt; WRITE TO ME &lt;&lt;<br />
-                        sjobs@apple.com<br />
-                        [ARPANET]
-                      </b></font
-                    >
-                  </td>
-                </tr>
-              </table>
-            </center>
-          </td>
-          <td valign="top" bgcolor="#e8d9b5">
-            <font face="courier" size="2" color="#1a1208">
-              <center>
-                <b><u>WELCOME TO MY PAGE ON THE WORLD INFORMATION NETWORK</u></b
-                ><br />
-                <font size="1" color="#6b1a0a"
-                  >Last updated: March 1977 &nbsp;|&nbsp; Best viewed with a 300
-                  baud modem</font
-                >
-              </center>
+    <hr class="divider" />
 
-              <br />
+    <!-- PHILOSOPHY -->
+    <section id="philosophy">
+      <div class="section-label">How I think</div>
+      <div class="philosophy">
+        <div class="phil-item reveal">
+          <p class="phil-num">01</p>
+          <h3 class="phil-title">Design is not decoration.</h3>
+          <p class="phil-text">
+            A thing is well designed when it works exactly as it looks like it
+            should. The surface and the function are the same conversation. If
+            you have to read the manual, we failed.
+          </p>
+        </div>
+        <div class="phil-item reveal" style="transition-delay: 0.12s">
+          <p class="phil-num">02</p>
+          <h3 class="phil-title">Simplicity is the ultimate sophistication.</h3>
+          <p class="phil-text">
+            Anyone can make something complicated. It takes real work &mdash;
+            and real courage &mdash; to strip away everything that isn't
+            necessary. That's where good things live.
+          </p>
+        </div>
+        <div class="phil-item reveal" style="transition-delay: 0.24s">
+          <p class="phil-num">03</p>
+          <h3 class="phil-title">Taste is a discipline.</h3>
+          <p class="phil-text">
+            People act like taste is something you're born with. It isn't. It's
+            built, slowly, by spending enormous amounts of time with the things
+            you love and asking why they work.
+          </p>
+        </div>
+      </div>
+    </section>
 
-              <table border="1" cellpadding="6" bgcolor="#f5edd5" width="100%">
-                <tr>
-                  <td>
-                    <b
-                      >&gt;&gt;&gt; ANNOUNCEMENT -- COMING VERY SOON
-                      &lt;&lt;&lt;</b
-                    ><br />
-                    <br />
-                    The APPLE ][ personal computer will be unveiled at the<br />
-                    <b>West Coast Computer Faire</b> -- April 16-17, 1977<br />
-                    Brooks Hall, San Francisco, California.<br />
-                    <br />
-                    This machine will CHANGE EVERYTHING.<br />
-                    I promise you that.<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--
-                    S.J.
-                  </td>
-                </tr>
-              </table>
+    <hr class="divider" />
 
-              <br />
-              <hr size="2" color="#6b1a0a" />
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-label">Get in touch</div>
+      <div class="contact-grid">
+        <div class="contact-left reveal">
+          <h2>Let's talk<br />about<br /><em>the future.</em></h2>
+          <p>
+            If you're working on something interesting, or you just want to
+            understand what we're building, I'm genuinely glad to hear from you.
+            Write to me directly.
+          </p>
+        </div>
+        <div class="contact-form reveal" style="transition-delay: 0.1s">
+          <div class="form-field">
+            <label for="name">Your name</label>
+            <input type="text" id="name" placeholder="John Warnock" />
+          </div>
+          <div class="form-field">
+            <label for="email">Your address</label>
+            <input type="email" id="email" placeholder="you@company.com" />
+          </div>
+          <div class="form-field">
+            <label for="msg">Message</label>
+            <textarea
+              id="msg"
+              placeholder="What are you working on?"
+            ></textarea>
+          </div>
+          <button class="btn-send" onclick="handleSend()">
+            Send message <span class="btn-arrow"></span>
+          </button>
+        </div>
+      </div>
+    </section>
 
-              <b>:: WHO AM I ::</b>
-              <hr size="1" color="#6b1a0a" />
+    <!-- FOOTER -->
+    <footer>
+      <p>&copy; 1977 Steve Jobs &mdash; Apple Computer, Inc.</p>
+      <p>Cupertino, California</p>
+      <p>All rights reserved</p>
+    </footer>
 
-              My name is Steve Jobs. I am 22 years old and I live in Los Altos,
-              California. Together with my friend and partner Steve Wozniak, I
-              have co-founded a company called Apple Computer. We believe --
-              deeply -- that the personal computer is not a machine for
-              engineers and hobbyists alone. It belongs in the hands of ordinary
-              people.<br />
-              <br />
-              People ask me why I dropped out of college. The honest answer is
-              that I didn't know what I wanted to do with my life, and it didn't
-              seem right to spend my parents' money on something I wasn't sure
-              about. So I dropped out and started sitting in on the classes that
-              actually interested me -- like calligraphy. That class taught me
-              that beauty and precision are not opposites. That lesson shows up
-              in everything we build at Apple.<br />
-              <br />
+    <script>
+      // ── Scroll reveal ──
+      const reveals = document.querySelectorAll(".reveal");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      reveals.forEach((r) => io.observe(r));
 
-              <hr size="1" color="#6b1a0a" />
-              <b>:: THE APPLE COMPUTER STORY ::</b>
-              <hr size="1" color="#6b1a0a" />
+      // ── Contact send ──
+      function handleSend() {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const msg = document.getElementById("msg").value.trim();
+        if (!name || !email || !msg) {
+          alert("Please fill out all fields.");
+          return;
+        }
+        alert("Thank you, " + name + ". I will be in touch.");
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("msg").value = "";
+      }
 
-              It started in a garage. My parents' garage, to be exact, in Los
-              Altos. Woz had built the most extraordinary computer circuit board
-              I had ever seen -- the Apple I. I knew immediately we had to sell
-              it. We sold our most prized possessions: Woz sold his HP
-              scientific calculator; I sold my Volkswagen bus. We raised $1,350
-              and Apple Computer was born.<br />
-              <br />
-              That was April 1976. A year later, we have over two dozen
-              employees, a real office, and venture capital backing from Mr.
-              Mike Markkula. And we are about to unveil the
-              <b>Apple ][</b>.<br />
-              <br />
-
-              <center>
-                <table border="2" cellpadding="8" bgcolor="#1a1208" width="90%">
-                  <tr>
-                    <td align="center">
-                      <font color="#e8c840" face="courier" size="2">
-                        <b>
-                          +------------------------------------------+<br />
-                          |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          |&nbsp;&nbsp;&nbsp;&nbsp;A P P L
-                          E&nbsp;&nbsp;&nbsp;][&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          |&nbsp;&nbsp;* 4K RAM (expandable to
-                          48K)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          |&nbsp;&nbsp;* MOS Technology 6502 @
-                          1MHz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          |&nbsp;&nbsp;* INTEGER BASIC (built-in
-                          ROM)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          |&nbsp;&nbsp;* HI-RES COLOR GRAPHICS
-                          (!)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          |&nbsp;&nbsp;* 8 expansion
-                          slots&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          |&nbsp;&nbsp;* Built-in
-                          speaker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          |&nbsp;&nbsp;* Typewriter-style
-                          keyboard&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          |&nbsp;&nbsp;Price: $1,298 USD (4K base
-                          model)&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<br />
-                          +------------------------------------------+
-                        </b>
-                      </font>
-                    </td>
-                  </tr>
-                </table>
-              </center>
-
-              <br />
-              <hr size="1" color="#6b1a0a" />
-              <b>:: A WORD ON DESIGN ::</b>
-              <hr size="1" color="#6b1a0a" />
-
-              Most computer companies think their customers are engineers. They
-              produce machines that look like instruments -- beige, boxy, ugly.
-              We disagree. A computer is a tool, yes, but it should also be
-              something you are <i>proud</i> to have in your home. The Apple
-              ]['s case was designed with the same care as its circuitry. It is
-              molded plastic, smooth and clean. It looks like it belongs on a
-              desk next to a typewriter or a telephone -- not in a
-              laboratory.<br />
-              <br />
-              Woz is the genius who builds these things. I am the one who
-              insists they be beautiful. We need each other.<br />
-              <br />
-
-              <hr size="1" color="#6b1a0a" />
-              <b>:: WHAT I BELIEVE ::</b>
-              <hr size="1" color="#6b1a0a" />
-
-              I believe the personal computer will be as important to
-              civilization as the printing press. I believe that ordinary people
-              -- teachers, writers, musicians, small businessmen -- deserve
-              access to computing power. Not timesharing. Not terminals
-              connected to some distant mainframe. Their <i>own</i> computer. On
-              their <i>own</i> desk.<br />
-              <br />
-              We are at the beginning of something enormous. And we are just
-              getting started.<br />
-              <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--
-              Steven P. Jobs, Los Altos CA, March 1977<br />
-              <br />
-
-              <hr size="2" color="#6b1a0a" />
-
-              <center>
-                <font size="1" face="courier" color="#6b1a0a">
-                  [ <b>HOME</b> ] &nbsp;|&nbsp; [ <b>ABOUT</b> ] &nbsp;|&nbsp; [
-                  <b>APPLE ][</b> ] &nbsp;|&nbsp; [ <b>VISION</b> ]
-                  &nbsp;|&nbsp; [ <b>PRESS</b> ] &nbsp;|&nbsp; [
-                  <b>CONTACT</b> ]<br />
-                  <br />
-                  &copy; 1977 Steven P. Jobs &amp; Apple Computer Co.
-                  &nbsp;|&nbsp; All rights reserved.<br />
-                  This page was composed on an Apple ][ prototype running
-                  Integer BASIC.<br />
-                  It is best experienced at 1200 baud or higher. Screen width:
-                  80 columns.<br />
-                  <br />
-                  <b>* * * APPLE COMPUTER -- BYTE INTO AN APPLE TODAY * * *</b>
-                </font>
-              </center>
-            </font>
-          </td>
-        </tr>
-      </table>
-
-      <br />
-
-      <table
-        border="1"
-        cellpadding="6"
-        cellspacing="0"
-        width="640"
-        bgcolor="#4a3a1a"
-      >
-        <tr>
-          <td align="center">
-            <font face="courier" size="1" color="#c8b88a">
-              <b
-                >VISITOR COUNT SINCE JAN 1, 1977 :
-                [&nbsp;&nbsp;00143&nbsp;&nbsp;]</b
-              >
-              &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp; Thank you for visiting.
-              Please sign my <u>GUESTBOOK</u>.<br />
-              This site is a member of the HOMEBREW COMPUTER CLUB WEBRING
-              &nbsp;|&nbsp; [ &lt;&lt; PREV ] &nbsp; [ NEXT &gt;&gt; ]
-            </font>
-          </td>
-        </tr>
-      </table>
-    </center>
+      // ── Subtle parallax on hero image ──
+      const heroImg = document.querySelector(".hero-img-wrap img");
+      if (heroImg) {
+        window.addEventListener(
+          "scroll",
+          () => {
+            const y = window.scrollY;
+            heroImg.style.transform = "translateY(" + y * 0.18 + "px)";
+          },
+          { passive: true },
+        );
+      }
+    </script>
   </body>
 </html>
